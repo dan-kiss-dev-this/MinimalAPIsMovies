@@ -1,0 +1,1 @@
+This is the repo for the MinimalAPIsMovies project a C# and .NET project used to demonstrate programming concepts related to Web Apis, Rest Principles including CORS setup, Caching, and API documentation with Swagger.
