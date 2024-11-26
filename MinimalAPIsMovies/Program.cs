@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Cors;
 using MinimalAPIsMovies.Entities;
+using MinimalAPIsMovies.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // services zone begin
+
+builder.Services.AddScoped<IGenresRepository, GenresRepository>();
 // example below to access a configuration property called lastName
 var lastName = builder.Configuration.GetValue<string>("lastName");
 
@@ -57,8 +60,13 @@ app.MapGet("/genres", () =>
 
     };
     return genres;
-}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(150)));
+}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)));
 
+app.MapPost("/genres", async (Genre genre, IGenresRepository genresRepository) =>
+{
+    await genresRepository.Create(genre);
+    return TypedResults.Ok();
+});
 // middleware zone end
 
 app.Run();
